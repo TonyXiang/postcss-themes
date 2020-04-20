@@ -8,6 +8,10 @@
 
 ## Usage
 
+```bash
+npm install postcss-themes -D
+```
+
 Check you project for existed PostCSS config: `postcss.config.js`
 in the project root, `"postcss"` section in `package.json`
 or `postcss` in bundle config.
@@ -91,7 +95,7 @@ document.body.className = document.body.className + ' theme-aaa'
 ### Attribute
 | attribute | intro | type | default |
 | --- | --- | --- |  --- |
-| themes | themes data | [ThemeObject](ThemeObject)\|Array\<[ThemeObject](ThemeObject)\> | - |
+| themes | themes data | `ThemeObject`\|Array\<`ThemeObject`\> | - |
 
 ### ThemeObject
 | attribute | intro | type | default |
