@@ -4,6 +4,8 @@
 
 [PostCSS]: https://github.com/postcss/postcss
 
+[![Build Status](https://travis-ci.com/TonyXiang/postcss-themes.svg?branch=master)](https://travis-ci.com/TonyXiang/postcss-themes)
+
 ## Usage
 
 Check you project for existed PostCSS config: `postcss.config.js`
@@ -17,10 +19,16 @@ module.exports = {
   plugins: [
 +   require('postcss-themes')({
 +     themes: {
++       filePath: 'theme-aaa.css',
++     }
++   }),
+
+// or use `className` and `variables`
++   require('postcss-themes')({
++     themes: {
 +       className: 'theme-aaa',
 +       variables: {
 +         '--main-color': 'red',
-+         '--error-color': 'blue'
 +       }
 +     }
 +   }),
@@ -28,11 +36,7 @@ module.exports = {
 // or set "themes" to be type Array
 +   require('postcss-themes')({
 +     themes: [{
-+       className: 'theme-aaa',
-+       variables: {
-+         '--main-color': 'red',
-+         '--error-color': 'blue'
-+       }
++       filePath: 'theme-aaa.css',
 +     }]
 +   }),
   ]
@@ -48,14 +52,17 @@ and set this plugin in settings.
 ```css
 :root { 
   --main-color: green;
-  --error-color: yellow;
 }
 .foo {
   font-size: 16px;
   color: var(--main-color);
 }
-.bar {
-  color: var(--error-color);
+```
+
+### theme-aaa.css
+```css
+:root {
+  --main-color: red;
 }
 ```
 
@@ -63,23 +70,32 @@ and set this plugin in settings.
 ```css
 :root { 
   --main-color: green;
-  --error-color: yellow;
 }
 .foo {
   font-size: 16px;
   color: var(--main-color);
 }
-.bar {
-  color: var(--error-color);
-}
 .theme-aaa { 
   --main-color: red;
-  --error-color: blue;
 }
 .theme-aaa .foo {
   color: var(--main-color);
 }
-.theme-aaa .bar {
-  color: var(--error-color);
-}
 ```
+
+### Change Theme
+```javascript
+document.body.className = document.body.className + ' theme-aaa'
+```
+
+### Attribute
+| attribute | intro | type | default |
+| --- | --- | --- |  --- |
+| themes | themes data | [ThemeObject](ThemeObject)\|Array\<[ThemeObject](ThemeObject)\> | - |
+
+### ThemeObject
+| attribute | intro | type | default |
+| --- | --- | --- |  --- |
+| className | the theme className. | string | - |
+| filePath | The path of CSS file that define CSS variables; The fileName will be the theme `className` by default if `className` is not defined. | string | - |
+| variables | The CSS variables in CSS files that `filePath` linked to will bo ignored If the same CSS variables are defined not only in `variables` but also in the CSS file | object | - |
