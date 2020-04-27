@@ -12,37 +12,14 @@
 npm install postcss-themes -D
 ```
 
-Check you project for existed PostCSS config: `postcss.config.js`
-in the project root, `"postcss"` section in `package.json`
-or `postcss` in bundle config.
-
-If you already use PostCSS, add the plugin to plugins list:
-
-```diff
+```javascript
 module.exports = {
   plugins: [
-+   require('postcss-themes')({
-+     themes: {
-+       filePath: 'theme-aaa.css',
-+     }
-+   }),
-
-// or use `className` and `variables`
-+   require('postcss-themes')({
-+     themes: {
-+       className: 'theme-aaa',
-+       variables: {
-+         '--main-color': 'red',
-+       }
-+     }
-+   }),
-
-// or set "themes" to be type Array
-+   require('postcss-themes')({
-+     themes: [{
-+       filePath: 'theme-aaa.css',
-+     }]
-+   }),
+    'postcss-themes': {
+      themes: {
+        filePath: 'theme-aaa.css',
+      }
+    },
   ]
 }
 ```
@@ -92,6 +69,23 @@ and set this plugin in settings.
 document.body.className = document.body.className + ' theme-aaa'
 ```
 
+### Work With Other Postcss Plugins
+```javascript
+module.exports = {
+  plugins: [
+    'postcss-themes': {
+      themes: {
+        filePath: 'theme-aaa.css',
+      }
+    },
+    'postcss-css-variables': {},
+    'postcss-preset-env': {
+      ...
+    }
+  ]
+}
+```
+
 ### Attribute
 | attribute | intro | type | default |
 | --- | --- | --- |  --- |
@@ -102,4 +96,4 @@ document.body.className = document.body.className + ' theme-aaa'
 | --- | --- | --- |  --- |
 | className | the theme className. | string | - |
 | filePath | The path of CSS file that define CSS variables; The fileName will be the theme `className` by default if `className` is not defined. | string | - |
-| variables | The CSS variables in CSS files that `filePath` linked to will bo ignored If the same CSS variables are defined not only in `variables` but also in the CSS file | object | - |
+| variables | CSS variables; The CSS variables in CSS files will bo ignored If the same CSS variables are defined not only in `variables` but also in the CSS file that `filePath` linked to. | object | - |

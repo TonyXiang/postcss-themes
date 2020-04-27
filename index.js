@@ -3,6 +3,24 @@ let fs = require('fs')
 let path = require('path')
 let postcss = require('postcss')
 
+const ColorKeywords = [
+  'transparent',
+  'currentColor'
+]
+
+function hasColorKeyword (value) {
+  let flag = false
+  if (!value) {
+    return flag
+  }
+  ColorKeywords.forEach(keyword => {
+    if (value.includes(keyword)) {
+      flag = true
+    }
+  })
+  return flag
+}
+
 function useSyncTransform (themes) {
   let useSync = true
   themes.forEach(theme => {
@@ -50,7 +68,7 @@ function transformTheme (root, theme) {
     newRoot.walkRules(rule => {
       let hasVariable = false
       rule.walkDecls(decl => {
-        if (decl.prop.indexOf('--') !== 0 && (decl.value && !decl.value.includes('var('))) {
+        if (decl.prop.indexOf('--') !== 0 && (decl.value && !decl.value.includes('var(')) && !hasColorKeyword(decl.value)) {
           decl.remove()
         } else {
           hasVariable = true
