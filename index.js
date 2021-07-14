@@ -71,6 +71,9 @@ function transformTheme (root, theme) {
 
     // remove unnecessary rules and declarations that not contain CSS variables
     newRoot.walkRules(rule => {
+      if (rule.parent && rule.parent.type === 'rule') {
+        return
+      }
       let hasVariable = false
       rule.walkDecls(decl => {
         if (decl.prop.indexOf('--') !== 0 && (decl.value && !decl.value.includes('var(')) && !hasColorKeyword(decl.value)) {
