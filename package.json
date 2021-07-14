@@ -1,6 +1,6 @@
 {
   "name": "postcss-themes",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "PostCSS plugin to add themes in CSS file",
   "keywords": [
     "postcss",
