@@ -6,6 +6,9 @@
 
 [![Build Status](https://travis-ci.com/TonyXiang/postcss-themes.svg?branch=master)](https://travis-ci.com/TonyXiang/postcss-themes)
 
+Note about at-rules:
+Except for [Conditional Group At-rules](https://developer.mozilla.org/en-US/docs/Web/CSS/At-rule#conditional_group_rules), others will simply be ignored because of irrelevance. `@keyframes` may contain css varialbe, but it's not feasible to deduce their scope values at build time.
+
 ## Usage
 
 ```bash
@@ -31,7 +34,7 @@ and set this plugin in settings.
 
 ### Input CSS
 ```css
-:root { 
+:root {
   --main-color: green;
 }
 .foo {
@@ -49,14 +52,14 @@ and set this plugin in settings.
 
 ### Output CSS
 ```css
-:root { 
+:root {
   --main-color: green;
 }
 .foo {
   font-size: 16px;
   color: var(--main-color);
 }
-.theme-aaa { 
+.theme-aaa {
   --main-color: red;
 }
 .theme-aaa .foo {

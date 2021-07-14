@@ -57,12 +57,17 @@ async function readTheme (theme) {
   }
 }
 
+const CONDITIONAL_GROUP_RULES = ['media', 'supports', 'document']
+
 function transformTheme (root, theme) {
-  let temporaryRoot = postcss.parse('')
   let { className, variables } = theme
   if (className && variables && Object.keys(variables)) {
     let themeSelector = `.${ className }`
     let newRoot = root.clone()
+
+    newRoot.walkAtRules(atrule => {
+      if (!CONDITIONAL_GROUP_RULES.includes(atrule.name)) { atrule.remove() }
+    })
 
     // remove unnecessary rules and declarations that not contain CSS variables
     newRoot.walkRules(rule => {
@@ -76,6 +81,10 @@ function transformTheme (root, theme) {
       })
       if (hasVariable === false) {
         rule.remove()
+      } else if (rule.selector === ':root') {
+        rule.selector = themeSelector
+      } else if (rule.selector.indexOf('--') !== 0) {
+        rule.selector = `${ themeSelector } ${ rule.selector }`
       }
     })
 
@@ -92,19 +101,9 @@ function transformTheme (root, theme) {
       }
     })
 
-    // append to temporaryRoot
-    newRoot.each(item => {
-      if (item.type === 'rule') {
-        if (item.selector === ':root') {
-          item.selector = themeSelector
-        } else if (item.selector.indexOf('--') !== 0) {
-          item.selector = `${ themeSelector } ${ item.selector }`
-        }
-      }
-      temporaryRoot.append(item)
-    })
+    return newRoot
   }
-  return temporaryRoot
+  return postcss.parse('')
 }
 
 function appendToRoot (root, list) {
