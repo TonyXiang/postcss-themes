@@ -8,48 +8,162 @@ async function run (input, output, opts) {
   expect(result.warnings()).toHaveLength(0)
 }
 
-const input = `:root { 
+const input = `
+@import url supports( supports-query );
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+       url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+}
+:root {
   --main-color: green;
 }
+
 .foo {
   font-size: 16px;
   color: var(--main-color);
+}
+.bar {
+  color: #000;
+}
+@keyframes pale {
+  from {
+    color: var(--main-color);
+  }
+
+  to {
+    color: #fff;
+  }
+}
+@media screen and (min-width: 900px) {
+  .article {
+    padding: 1rem 3rem;
+    background-color: var(--main-color);
+  }
+}
+@media screen and (min-width: 600px) {
+  .article {
+    padding: 5rem;
+  }
 }
 `
 
-const output = `:root { 
+const output = `
+@import url supports( supports-query );
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+       url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+}
+:root {
   --main-color: green;
 }
+
 .foo {
   font-size: 16px;
   color: var(--main-color);
 }
-.theme-aaa { 
+.bar {
+  color: #000;
+}
+@keyframes pale {
+  from {
+    color: var(--main-color);
+  }
+
+  to {
+    color: #fff;
+  }
+}
+@media screen and (min-width: 900px) {
+  .article {
+    padding: 1rem 3rem;
+    background-color: var(--main-color);
+  }
+}
+@media screen and (min-width: 600px) {
+  .article {
+    padding: 5rem;
+  }
+}
+.theme-aaa {
   --main-color: red;
 }
 .theme-aaa .foo {
   color: var(--main-color);
 }
+@media screen and (min-width: 900px) {
+  .theme-aaa .article {
+    background-color: var(--main-color);
+  }
+}
+@media screen and (min-width: 600px) {
+}
 `
 
-const outputMulti = `:root { 
+const outputMulti = `
+@import url supports( supports-query );
+@font-face {
+  font-family: "Open Sans";
+  src: url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+       url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+}
+:root {
   --main-color: green;
 }
+
 .foo {
   font-size: 16px;
   color: var(--main-color);
 }
-.theme-aaa { 
+.bar {
+  color: #000;
+}
+@keyframes pale {
+  from {
+    color: var(--main-color);
+  }
+
+  to {
+    color: #fff;
+  }
+}
+@media screen and (min-width: 900px) {
+  .article {
+    padding: 1rem 3rem;
+    background-color: var(--main-color);
+  }
+}
+@media screen and (min-width: 600px) {
+  .article {
+    padding: 5rem;
+  }
+}
+.theme-aaa {
   --main-color: red;
 }
 .theme-aaa .foo {
   color: var(--main-color);
 }
-.theme-bbb { 
+@media screen and (min-width: 900px) {
+  .theme-aaa .article {
+    background-color: var(--main-color);
+  }
+}
+@media screen and (min-width: 600px) {
+}
+.theme-bbb {
   --main-color: blue;
 }
 .theme-bbb .foo {
   color: var(--main-color);
+}
+@media screen and (min-width: 900px) {
+  .theme-bbb .article {
+    background-color: var(--main-color);
+  }
+}
+@media screen and (min-width: 600px) {
 }
 `
 
